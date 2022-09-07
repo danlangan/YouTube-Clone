@@ -8,3 +8,6 @@ class Comment(models.Model):
     text = models.CharField(max_length=300)
     likes = models.IntegerField()
     dislikes = models.IntegerField()
+    title = models.CharField(max_length=300)
+    description = models.CharField(max_length=300)
+    release_date = models.DateField()
