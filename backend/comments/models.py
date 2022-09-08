@@ -6,8 +6,5 @@ from authentication.models import User
 class Comment(models.Model):
     video_id = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=300)
-    likes = models.IntegerField()
-    dislikes = models.IntegerField()
-    title = models.CharField(max_length=300)
-    description = models.CharField(max_length=300)
-    release_date = models.DateField()
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
