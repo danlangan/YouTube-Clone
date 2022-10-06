@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { KEY } from '../localKey '
 
 import axios from "axios";
 
@@ -10,13 +11,13 @@ const HomePage = () => {
   //TODO: Add an AddCars Page to add a car for a logged in user's garage
   const [user, token] = useAuth(); // this will be needed on your video player page to get user info
   const [videos, setVideos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("bob ross");
+  const [searchTerm, setSearchTerm] = useState("leonel messi highlights");
 
 
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=AIzaSyDdEHMH6ijhDun3kNDmWuWh1jUCbr0WOjI`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}`);
         setVideos(response.data);
       } catch (error) {
         console.log(error.response.data);
@@ -30,7 +31,7 @@ const HomePage = () => {
       {videos &&
         videos.map((video) => (
           <p key={video.videoid}>
-            {video.name} {car.discripion}
+            {video.name} {video.discripion}
           </p>
         ))}
     </div>

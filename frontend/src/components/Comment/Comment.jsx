@@ -5,11 +5,11 @@ import { KEY } from '../localKey';
 const [comments, setComments] = useState([])
 
 useEffect(() => {
-    setComment();
+    setComments();
 }, []);
 
 async function fetchComments(){
-    let response = await axios.get(`enter in the URL for the api here${videoSearch}`);
+    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
     setComments(response.data.results);
 };
 
@@ -31,7 +31,7 @@ useEffect(() => {
 });
 
 const setComment = async () => {
-    try{
+    try {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`
         );
         setComments(response.data);
@@ -47,13 +47,21 @@ const setComment = async () => {
                         return (
                             <tr>
                                 <td>{comment.text}</td>
-
-                                <div><td>{comment.likes}</td>
-                                <td>{comment.dislikes}</td></div>
+                                <div className='like-dislike'>
+                                    <td>{comment.likes}</td>
+                                    <td>{comment.dislikes}</td>
+                                </div>
                             </tr>
                         )
                     })}
                 </tbody>
+                <form>
+                    <h2>
+                        Add Comment
+                    </h2>
+                    <input>
+                    </input>
+                </form>
             </table>
         </div>
     );

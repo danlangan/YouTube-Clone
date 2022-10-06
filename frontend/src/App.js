@@ -12,8 +12,8 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
-import Comment from './components/Comment/Comment';
 import ViewVideo from "./components/ViewVideo/ViewVideo";
+import DisplayVideos from "./components/DisplayVideos/DisplayVideos";
 
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
@@ -21,21 +21,12 @@ import PrivateRoute from "./utils/PrivateRoute";
 function App(props) {
   const [videoSearch, setVideoSearch] = useState(``);
 
-  
-
-  
-
-  useEffect(() => {
-    let mounted = true;
-    if(mounted){
-      fetchComments();
-    }
-    return () => mounted = false;
-  })
   return (
     <div>
       <Navbar />
       <Routes>
+        <DisplayVideos/>
+        <ViewVideo/>
         <Route
           path="/"
           element={

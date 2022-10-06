@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { KEY } from '../localKey';
-import Comment from './Comment'
+import Comment from './Comment';
+import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
 
 const [video, setVideo] = useState([])
 
 const ViewVideo = async () => {
     try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${user.search}&key=${KEY}`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}`);
         setVideo(response.data);
     } catch (error) {
         console.log(error.message);
     }};
+
     
     return (
         <div className='video'>
+            <div>
             <iframe className="iframe" src={`https://www.youtube.com/embed/${props.videoObj.id.videoId}`}
             ></iframe>
             <Comment/>
-
+            </div>
+            <div><ViewRelatedVideos/></div>
         </div>
     );
 
