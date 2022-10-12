@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { KEY } from '../localKey';
 
@@ -27,7 +27,7 @@ async () => {
                     return false;
                 }
         });
-        props.setSearchTerm(response);
+        event.setSearchTerm(response);
     }
 
     return (
