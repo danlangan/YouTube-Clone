@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { KEY } from '../localKey';
+import { KEY } from '../../localKey';
 
-const [comments, setComments] = useState([])
+const [comment, setComment] = useState([])
 
 useEffect(() => {
-    setComments();
+    setComment();
 }, []);
 
 async function fetchComments(){
     let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
-    setComments(response.data.results);
+    setComment(response.data.results);
 };
 
 function mapComments(){
-    return comments.map(comment => 
+    return comment.map(comment => 
       <Comment
       key={comment.video_id}
       comment={comment}
@@ -30,11 +30,11 @@ useEffect(() => {
     return () => mounted = false;
 });
 
-const setComment = async () => {
+const setComment = async (props) => {
     try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`
+        let response = await axios.put(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`
         );
-        setComments(response.data);
+        setComment(response.data);
     } catch (error) {
         console.log(error.message);
     }
@@ -43,7 +43,7 @@ const setComment = async () => {
             <table>
                 <thead>Comments</thead>
                 <tbody>
-                    {props.comments.map((comment) => {
+                    {comment && props.comments.map((comment) => {
                         return (
                             <tr>
                                 <td>{comment.text}</td>
@@ -59,8 +59,8 @@ const setComment = async () => {
                     <h2>
                         Add Comment
                     </h2>
-                    <input>
-                    </input>
+                    <input placeholder="Add Comment Here" value={comment} onChange={(event) => setComment(event.target.value)}/>
+                    <button type='submit'>Submit Comment</button>
                 </form>
             </table>
         </div>

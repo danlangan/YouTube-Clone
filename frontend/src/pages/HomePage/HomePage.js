@@ -1,12 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { KEY } from '../localKey '
-import DisplayVideos from '../../components/DisplayVideos/DisplayVideos'
+import { KEY } from '../../localKey';
+
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = (props) => {
   // The "user" value from this Hook contains the decoded logged in user information (username, first name, id)
   // The "token" value is the JWT token that you will send in the header of any request requiring authentication
   //TODO: Add an AddCars Page to add a car for a logged in user's garage
@@ -51,11 +52,12 @@ const HomePage = () => {
         <button type='submit'>Search</button>
       </form>
       {videos &&
-        videos.map((video) => (
-          <p key={video.videoid}>
+        videos.map((video) => {
+          return <Link to={`viewvideo/${video.videoId}`}>
+          key={video.videoId}
             {video.name} {video.discripion}
-          </p>
-        ))}
+            </Link>
+        })};
     </div>
   );
 };

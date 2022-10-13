@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { KEY } from '../localKey';
+import { KEY } from '../../localKey';
 
 const [videos, setVideos] = useState([]);
 const [searchTerm, setSearchTerm] = useState('leo messi highlights');
@@ -16,7 +16,7 @@ async () => {
     } catch (error) {
         console.log(error.message);
     }};
-    
+
     return (
         <div className='relatedVideos'>
             <table>

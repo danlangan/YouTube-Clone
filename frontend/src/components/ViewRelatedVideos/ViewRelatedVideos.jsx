@@ -1,21 +1,20 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { KEY } from '../../localKey'
 
-const [relatedVideos, setRelatedVideos] = useState(`${video.video_id}`)
 
 const ViewRelatedVideos = (props) => {
 
+const [relatedVideos, setRelatedVideos] = useState(`${video.video_id}`)
+
 async () => {
     try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${relatedVideos}&key=${KEY}`);
         setRelatedVideos(response.data);
     } catch (error) {
         console.log(error.message);
     }
-
-}};
-    
-
+};
     return (
         <div className='relatedVideos'>
             <table>
@@ -33,6 +32,6 @@ async () => {
                 </tbody>
             </table>
         </div>
-    )
+    )}
 
 export default ViewRelatedVideos;
