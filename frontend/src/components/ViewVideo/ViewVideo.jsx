@@ -22,6 +22,7 @@ const ViewVideo = async () => {
             ></iframe>
             <Comment/>
             </div>
+            <br></br>
             <div><ViewRelatedVideos/></div>
         </div>
     );

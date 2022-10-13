@@ -16,20 +16,7 @@ async () => {
     } catch (error) {
         console.log(error.message);
     }};
-
-    function displaySearchResults(event) {
-        event.preventDefault();
-        let response = props.videos.filter((video) => {
-            if (video.title.includes(searchTerm)||
-                video.description.includes(searchTerm)) {
-                    return true;
-                } else {
-                    return false;
-                }
-        });
-        event.setSearchTerm(response);
-    }
-
+    
     return (
         <div className='relatedVideos'>
             <table>
