@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { KEY } from '../../localKey';
 import Comment from '../Comment/Comment';
 import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
+import { useParams, useLocation } from 'react-router-dom'
 
-const [video, setVideo] = useState([{searchTerm}])
+const ViewVideo = () = {
+    const { videoId } = useParams();
+    const { state } = useLocation();
+    const [video, setVideo] = useState({});
+    console.log(state);
 
-const ViewVideo = async () => {
-    try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video}&key=${KEY}`);
-        setVideo(response.data);
-    } catch (error) {
-        console.log(error.message);
-    };
-
-    
+    useEffect(() => {
+        const fetchVideo = async () => {
+            try {
+                let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos/${videoId}&key=${KEY}&type=video&maxResults=5&part=snippet`);
+                setVideo(response.data);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        fetchVideo();
+    }, [videoId]);
     return (
         <div className='video'>
             <div>
-            <iframe className="iframe" src={`https://www.youtube.com/embed/${props.videoObj.id.videoId}`}
+                <h1> {video.title}</h1>
+            <iframe className="iframe" src={`https://www.youtube.com/embed/${videoObj.id.videoId}`}
             ></iframe>
+            <h3>{video.description}</h3>
             <Comment/>
             </div>
             <br></br>
             <div><ViewRelatedVideos/></div>
         </div>
-    )};
+    );
 
 export default ViewVideo;

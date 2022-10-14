@@ -5,11 +5,11 @@ import { KEY } from '../../localKey'
 
 const ViewRelatedVideos = (props) => {
 
-const [relatedVideos, setRelatedVideos] = useState(`${video.video_id}`)
+const [relatedVideos, setRelatedVideos] = useState(`${video.videoId}`)
 
 async () => {
     try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${relatedVideos}&key=${KEY}`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setRelatedVideos(response.data);
     } catch (error) {
         console.log(error.message);

@@ -67,4 +67,4 @@ const setComment = async (props) => {
     );
 };
 
-export default Comment;
+export default Comment; 

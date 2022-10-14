@@ -5,7 +5,7 @@ import { KEY } from '../../localKey';
 
 
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const HomePage = (props) => {
   // The "user" value from this Hook contains the decoded logged in user information (username, first name, id)
@@ -14,12 +14,13 @@ const HomePage = (props) => {
   const [user, token] = useAuth(); // this will be needed on your video player page to get user info
   const [videos, setVideos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate()
 
 
 
     const fetchSearchResults = async (searchTerm="leonel messi highlights") => {
       try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data);
       } catch (error) {
         console.log(error.response.data);
@@ -30,6 +31,14 @@ const HomePage = (props) => {
       fetchSearchResults();
       }, [token]);
 
+      const handleClick = (video) => {
+        navigate(`viewvideo/${video.videoId}`, {
+          state: {
+            title: video.title,
+            description: video.description
+          }
+        })
+      };
       function displaySearchResults(event) {
         event.preventDefault();
         let response = props.videos.filter((video) => {
@@ -51,12 +60,18 @@ const HomePage = (props) => {
         <input type='text' placeholder='Click Here for YouTube Search' value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <button type='submit'>Search</button>
       </form>
-      {videos &&
+      {...videos &&
         videos.map((video) => {
-          return <Link to={`viewvideo/${video.videoId}`}>
-          key={video.videoId}
-            {video.name} {video.discripion}
-            </Link>
+          return (
+          <ul>
+            <li onClick={() => handleClick(video)}>
+              <Link to={`viewvideo/${video.videoId}`}
+            key={video.videoId}
+              {video.title} {video.discripion}>
+              </Link>
+            </li>
+          </ul>
+            )
         })};
     </div>
   );
