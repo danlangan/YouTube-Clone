@@ -35,5 +35,4 @@ const ViewVideo = () = {
             <div><ViewRelatedVideos/></div>
         </div>
     );
-
 export default ViewVideo;

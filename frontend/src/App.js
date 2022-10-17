@@ -18,14 +18,13 @@ import DisplayVideos from "./components/DisplayVideos/DisplayVideos";
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
 
-function App(props) {
-  const [videoSearch, setVideoSearch] = useState(``);
+function App() {
 
   return (
     <div>
       <Navbar />
+      <DisplayVideos/>
       <Routes>
-        <DisplayVideos/>
         <ViewVideo/>
         <Route
           path="/"

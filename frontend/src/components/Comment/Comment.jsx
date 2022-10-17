@@ -5,12 +5,24 @@ import { KEY } from '../../localKey';
 const [comment, setComment] = useState([])
 
 useEffect(() => {
+    let mounted = true;
+    if(mounted){
+        fetchComments();
+    }
+    return () => mounted = false;
+});
+
+useEffect(() => {
     setComment();
 }, []);
 
-async function fetchComments(){
+const fetchComments = async () => {
+    try {
     let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
-    setComment(response.data.results);
+    mapComments(response.data.results);
+    } catch (error) {
+        console.log(error.message)
+    }
 };
 
 function mapComments(){
@@ -22,15 +34,9 @@ function mapComments(){
     )
 };
 
-useEffect(() => {
-    let mounted = true;
-    if(mounted){
-        fetchComments();
-    }
-    return () => mounted = false;
-});
 
-const setComment = async (props) => {
+
+const postComment = async (props) => {
     try {
         let response = await axios.put(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`
         );
@@ -59,7 +65,7 @@ const setComment = async (props) => {
                     <h2>
                         Add Comment
                     </h2>
-                    <input placeholder="Add Comment Here" value={comment} onChange={(event) => setComment(event.target.value)}/>
+                    <input className="comment-box" placeholder="Add Comment Here" value={comment} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
             </table>
