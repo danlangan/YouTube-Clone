@@ -10,28 +10,10 @@ const HomePage = () => {
   // The "token" value is the JWT token that you will send in the header of any request requiring authentication
   //TODO: Add an AddCars Page to add a car for a logged in user's garage
   const [user, token] = useAuth(); // this will be needed on your video player page to get user info
-  const [comments, setComments] = useState([])
   // const [videos, setVideos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-
   const [videos, setVideos] = useState([])
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try{
-        let response = await axios.get('http://127.0.0.1:8000/api/comments', {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        setComments(response.data);
-      } catch (error) {
-        console.log(error.message)
-      }
-    };
-    fetchComments();
-  }, [token]);
 
     async function fetchSearchResults(searchTerm="leonel messi highlights") {
       try {
