@@ -15,18 +15,18 @@ function Comment() {
         }
     };
 
+    useEffect(() => {
+        let mounted = true;
+        if(mounted){
+            setComments();
+        }
+        return () => mounted = false;
+    });
+
     function mapComments(){
 
-        useEffect(() => {
-            let mounted = true;
-            if(mounted){
-                setComments();
-            }
-            return () => mounted = false;
-        });
-    
         return comments.map(comment => 
-        <Comment
+        <comment
         key={comment.video_id}
         comment={comment}
         likes={likes}

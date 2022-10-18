@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { KEY } from '../../localKey';
 
-const [videos, setVideos] = useState([]);
-const [searchTerm, setSearchTerm] = useState('leo messi highlights');
 
 
 
-const DisplayVideos = (props) => {
 
-async () => {
+function DisplayVideos() { 
+
+    const [videos, setVideos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('leo messi highlights');
+
+
+async function DisplayVideos() {
     try {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}`);
         setVideos(response.data);
@@ -36,6 +39,7 @@ async () => {
                 </tbody>
             </table>
         </div>
-    )};
+    );
+};
 
-    export default DisplayVideos;
+export default DisplayVideos;

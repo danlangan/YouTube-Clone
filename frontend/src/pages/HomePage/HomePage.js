@@ -15,6 +15,8 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  const [videos, setVideos] = useState([])
+
   useEffect(() => {
     const fetchComments = async () => {
       try{
@@ -31,7 +33,7 @@ const HomePage = () => {
     fetchComments();
   }, [token]);
 
-    const fetchSearchResults = async (searchTerm="leonel messi highlights") => {
+    async function fetchSearchResults(searchTerm="leonel messi highlights") {
       try {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data);
@@ -54,7 +56,7 @@ const HomePage = () => {
       };
       function displaySearchResults(event) {
         event.preventDefault();
-        let response = props.videos.filter((video) => {
+        let response = videos.filter((video) => {
             if (video.title.includes(searchTerm)||
                 video.description.includes(searchTerm)) {
                     return true;
@@ -67,12 +69,13 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <h1>Home Page for {user.username}'s comments!</h1>
-      <br></br>
       <form onSubmit={displaySearchResults}>
         <input type='text' placeholder='Click Here for YouTube Search' value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <button type='submit'>Search</button>
       </form>
+      <h1>Home Page for {user.username}!</h1>
+      <br></br>
+      <ul>
       {videos && videos.map((video => {
           return (
             <li key={video.videoId}>
@@ -82,6 +85,7 @@ const HomePage = () => {
             </li>
           )
         }))};
+        </ul>
     </div>
   );
 };

@@ -15,17 +15,17 @@ function ViewRelatedVideos() {
             console.log(error.message);
         }};
 
+        useEffect(() => {
+            let mounted = true;
+            if(mounted){
+                setRelatedVideos();
+            };
+        })
+
         function mapRelatedVideos(){
 
-            useEffect(() => {
-                let mounted = true;
-                if(mounted){
-                    setRelatedVideos();
-                };
-            })
-
             return relatedVideos.map(relatedVideo =>
-                <ViewRelatedVideo
+                <relatedVideo
                 key={relatedVideo.videoId}
                 title={relatedVideo.title}
                 description={relatedVideo.description}
