@@ -6,15 +6,7 @@ function Comment() {
 
     const [comments, setComments] = useState([])
 
-    useEffect(() => {
-        let mounted = true;
-        if(mounted){
-            setComments();
-        }
-        return () => mounted = false;
-    });
-
-    const fetchComments = async () => {
+    async function fetchComments(){
         try {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
         mapComments(response.data.results);
@@ -24,6 +16,15 @@ function Comment() {
     };
 
     function mapComments(){
+
+        useEffect(() => {
+            let mounted = true;
+            if(mounted){
+                setComments();
+            }
+            return () => mounted = false;
+        });
+    
         return comments.map(comment => 
         <Comment
         key={comment.video_id}
@@ -34,13 +35,16 @@ function Comment() {
         )
     };
 
-    const postComment = async (newComment) => {
+    async function postComment(newComment){
         try {
             let response = await axios.post(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`, newComment);
-            fetchComments(response.data);
+            setComments(response.data);
         } catch (error) {
             console.log(error.message);
         }
+        if(response.status === 201){
+            await fetchComments();
+        };
     };
 
     return (
@@ -48,7 +52,7 @@ function Comment() {
             <table>
                 <thead>Comments</thead>
                 <tbody>
-                    {comment && props.comments.map((comment) => {
+                    {comments && props.comments.map((comment) => {
                         return (
                             <tr>
                                 <td>{comment.text}</td>
@@ -64,7 +68,7 @@ function Comment() {
                     <h2>
                         Add Comment
                     </h2>
-                    <input type="text" className="comment-box" placeholder="Add Comment Here" value={comment} onChange={(event) => postComment(event.target.value)}/>
+                    <input type="text" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
             </table>
