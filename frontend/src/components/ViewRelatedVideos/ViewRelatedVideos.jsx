@@ -38,7 +38,7 @@ const ViewRelatedVideos = (props) => {
         };
 
     return (
-        <div className='relatedVideos'>
+        <div className='related-videos'>
             <table>
                 <thead>
                     Related Videos
