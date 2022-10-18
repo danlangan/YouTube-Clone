@@ -5,23 +5,26 @@ import Comment from '../Comment/Comment';
 import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
 import { useParams, useLocation } from 'react-router-dom'
 
-const ViewVideo = () = {
+function ViewVideo() {
     const { videoId } = useParams();
     const { state } = useLocation();
     const [video, setVideo] = useState({});
     console.log(state);
 
+    const fetchVideo = async () => {
+        try {
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos/${videoId}&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            setVideo(response.data);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+    
     useEffect(() => {
-        const fetchVideo = async () => {
-            try {
-                let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos/${videoId}&key=${KEY}&type=video&maxResults=5&part=snippet`);
-                setVideo(response.data);
-            } catch (error) {
-                console.log(error.message);
-            }
-        };
         fetchVideo();
     }, [videoId]);
+
+
     return (
         <div className='video'>
             <div>
@@ -35,4 +38,6 @@ const ViewVideo = () = {
             <div><ViewRelatedVideos/></div>
         </div>
     );
+
+};
 export default ViewVideo;

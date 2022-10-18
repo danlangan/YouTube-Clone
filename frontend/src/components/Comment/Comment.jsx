@@ -2,48 +2,47 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { KEY } from '../../localKey';
 
-const [comment, setComment] = useState([])
+function Comment() {
 
-useEffect(() => {
-    let mounted = true;
-    if(mounted){
-        fetchComments();
-    }
-    return () => mounted = false;
-});
+    const [comments, setComments] = useState([])
 
-useEffect(() => {
-    setComment();
-}, []);
+    useEffect(() => {
+        let mounted = true;
+        if(mounted){
+            setComments();
+        }
+        return () => mounted = false;
+    });
 
-const fetchComments = async () => {
-    try {
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
-    mapComments(response.data.results);
-    } catch (error) {
-        console.log(error.message)
-    }
-};
+    const fetchComments = async () => {
+        try {
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
+        mapComments(response.data.results);
+        } catch (error) {
+            console.log(error.message)
+        }
+    };
 
-function mapComments(){
-    return comment.map(comment => 
-      <Comment
-      key={comment.video_id}
-      comment={comment}
-      />
-    )
-};
+    function mapComments(){
+        return comments.map(comment => 
+        <Comment
+        key={comment.video_id}
+        comment={comment}
+        likes={likes}
+        dislikes={dislikes}
+        />
+        )
+    };
 
+    const postComment = async (newComment) => {
+        try {
+            let response = await axios.post(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`, newComment);
+            fetchComments(response.data);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
-
-const postComment = async (props) => {
-    try {
-        let response = await axios.put(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`
-        );
-        setComment(response.data);
-    } catch (error) {
-        console.log(error.message);
-    }
     return (
         <div>
             <table>
@@ -65,7 +64,7 @@ const postComment = async (props) => {
                     <h2>
                         Add Comment
                     </h2>
-                    <input className="comment-box" placeholder="Add Comment Here" value={comment} onChange={(event) => postComment(event.target.value)}/>
+                    <input type="text" className="comment-box" placeholder="Add Comment Here" value={comment} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
             </table>

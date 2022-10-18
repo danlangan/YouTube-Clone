@@ -77,7 +77,7 @@ const HomePage = () => {
           return (
             <li key={video.videoId}>
             {video.title} {video.discripion}
-            onClick={() => handleClick(video)}
+            onClick={(video) => handleClick(video)}
               <Link to={`viewvideo/${video.videoId}`}></Link>
             </li>
           )
