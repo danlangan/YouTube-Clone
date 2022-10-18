@@ -3,24 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
 
 
-function ViewRelatedVideos() {
+const ViewRelatedVideos = (props) => {
 
-    const [relatedVideos, setRelatedVideos] = useState(`${video.videoId}`)
+    useEffect(() => {
+        let mounted = true;
+        if(mounted){
+            fetchRelatedVideos();
+        };
+    })
+
+    const [relatedVideos, setRelatedVideos] = useState(`${props.videoId}`)
 
     async function fetchRelatedVideos(){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${props.videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            console.log(response.data);
+            if (response.status === 201){
+            setRelatedVideos(response.data);
+        }
             mapRelatedVideos(response.data);
         } catch (error) {
             console.log(error.message);
-        }};
-
-        useEffect(() => {
-            let mounted = true;
-            if(mounted){
-                setRelatedVideos();
-            };
-        })
+        }; 
+     };
 
         function mapRelatedVideos(){
 
@@ -38,7 +43,7 @@ function ViewRelatedVideos() {
                 <thead>
                     Related Videos
                 </thead>
-                <tbody>
+                
                     {props.relatedVideos.map((relatedVideo) => {
                     return (
                 <tr>
@@ -46,7 +51,6 @@ function ViewRelatedVideos() {
                     {relatedVideo.thumbnail.default}
                 </tr>
                         )})};
-                </tbody>
             </table>
         </div>
     )

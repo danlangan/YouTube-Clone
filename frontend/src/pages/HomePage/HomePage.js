@@ -47,7 +47,7 @@ const HomePage = () => {
       }, [token]);
 
       const handleClick = (video) => {
-        navigate(`viewvideo/${video.videoId}`, {
+        navigate(`ViewVideo/${video.videoId}`, {
           state: {
             title: video.title,
             description: video.description
@@ -81,7 +81,7 @@ const HomePage = () => {
             <li key={video.videoId}>
             {video.title} {video.discripion}
             onClick={(video) => handleClick(video)}
-              <Link to={`viewvideo/${video.videoId}`}></Link>
+              <Link to={`ViewVideo/${video.videoId}`}></Link>
             </li>
           )
         }))};

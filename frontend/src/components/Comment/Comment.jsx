@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { KEY } from '../../localKey';
 
-function Comment() {
+const Comment = (props) => {
 
     const [comments, setComments] = useState([])
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${video_id}&key=${KEY}`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${props.videoId}&key=${KEY}`);
         mapComments(response.data.results);
         } catch (error) {
             console.log(error.message)
@@ -21,30 +21,31 @@ function Comment() {
             setComments();
         }
         return () => mounted = false;
-    });
+    },[]);
 
     function mapComments(){
 
         return comments.map(comment => 
         <comment
         key={comment.video_id}
-        comment={comment}
-        likes={likes}
-        dislikes={dislikes}
+        comment={comment.text}
+        likes={comment.likes}
+        dislikes={comment.dislikes}
         />
         )
     };
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`https://www.googleapis.com/youtube/v3/${video.video_id}&key=${KEY}`, newComment);
-            setComments(response.data);
+            let response = await axios.post(`https://www.googleapis.com/youtube/v3/${props.videoId}&key=${KEY}`, newComment);
+            console.log(response.data);
+            if (response.status === 201){
+                setComments(response.data);
+            }
+            fetchComments(response.data);
         } catch (error) {
             console.log(error.message);
         }
-        if(response.status === 201){
-            await fetchComments();
-        };
     };
 
     return (
