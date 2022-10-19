@@ -25,11 +25,13 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              <HomePage />
+              <HomePage/>
             </PrivateRoute>
           }
         />
-        <Route path='ViewVideo' element={<ViewVideo/>}/>
+        <Route 
+          path='/ViewVideo' 
+          element={<ViewVideo />}/>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

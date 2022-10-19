@@ -1,0 +1,13 @@
+.display-videos {
+    font-size: small;
+    display: table-row;
+    border: 5em
+};
+
+.video-description {
+    font-size: xx-small;
+}
+
+input {
+    size-adjust: 15em;
+}
