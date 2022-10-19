@@ -27,7 +27,7 @@ const Comment = (props) => {
             setComments();
         }
         return () => mounted = false;
-    },[]);
+    },[token]);
 
     function mapComments(){
 
@@ -79,7 +79,7 @@ const Comment = (props) => {
                     <h2>
                         Add a comment below, {user.username}!
                     </h2>
-                    <input type="text" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
+                    <input type="text" spellcheck="true" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
             </table>

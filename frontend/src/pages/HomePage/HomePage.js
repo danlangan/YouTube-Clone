@@ -11,22 +11,25 @@ const HomePage = () => {
   //TODO: Add an AddCars Page to add a car for a logged in user's garage
   const [user, token] = useAuth(); // this will be needed on your video player page to get user info
   // const [videos, setVideos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [videos, setVideos] = useState([])
+  const [query, setQuery] = useState("");
 
-    async function fetchSearchResults(searchTerm="leonel messi highlights") {
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      fetchSearchResults();
+      }
+    }, [token]);
+
+    async function fetchSearchResults(query="leonel messi highlights") {
       try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&key=${KEY}&type=video&maxResults=5&part=snippet`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${query}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data);
       } catch (error) {
         console.log(error.message);
       }
     };
-    
-    useEffect(() => {
-      fetchSearchResults();
-      }, [token]);
 
       const handleClick = (video) => {
         navigate(`ViewVideo/${video.videoId}`, {
@@ -39,22 +42,19 @@ const HomePage = () => {
       function displaySearchResults(event) {
         event.preventDefault();
         let response = videos.filter((video) => {
-            if (video.title.includes(searchTerm)||
-                video.description.includes(searchTerm)) {
+            if (video.title.includes(query)||
+                video.description.includes(query)) {
                     return true;
                 } else {
                     return false;
                 }
-        });
-        event.setVideos(response);
-    }
+        }); return response.data
+      }
 
   return (
     <div className="container">
-      <form onSubmit={displaySearchResults}>
-        <input type='text' placeholder='Click Here for YouTube Search' value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
+        <input type='search' placeholder='Click Here for YouTube Search' value={query} onChange={(event) => setQuery(event.target.value)} onSubmit={displaySearchResults} />
         <button type='submit'>Search</button>
-      </form>
       <h1>Home Page for {user.username}!</h1>
       <br></br>
       <ul>
@@ -66,7 +66,7 @@ const HomePage = () => {
               <Link to={`ViewVideo/${video.videoId}`}></Link>
             </li>
           )
-        }))};
+        }))}
         </ul>
     </div>
   );

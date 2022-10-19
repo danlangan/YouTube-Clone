@@ -21,7 +21,6 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <ViewVideo/>
         <Route
           path="/"
           element={
@@ -30,6 +29,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path='ViewVideo' element={<ViewVideo/>}/>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
