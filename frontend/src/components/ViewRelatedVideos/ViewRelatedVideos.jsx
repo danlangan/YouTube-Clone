@@ -1,10 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
+import { useParams, useLocation } from "react-router-dom";
 
 
 const ViewRelatedVideos = (props) => {
-    const [relatedVideos, setRelatedVideos] = useState(`${props.videoId}`)
+    const { videoId } = useParams();
+    const { state } = useLocation();
+    console.log(state)
+    const [relatedVideos, setRelatedVideos] = useState(`${props.videoId}`);
+    
 
     useEffect(() => {
         let mounted = true;
@@ -15,7 +20,7 @@ const ViewRelatedVideos = (props) => {
   
     async function fetchRelatedVideos(){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${props.videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
             console.log(response.data);
             if (response.status === 201){
             setRelatedVideos(response.data);

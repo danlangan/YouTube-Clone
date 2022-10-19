@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { KEY } from '../../localKey';
 import useAuth from "../../hooks/useAuth";
+import { useParams, useLocation } from "react-router-dom";
 
 const Comment = (props) => {
-    
     const [user, token] = useAuth();
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState([]);
+    const { videoId } = useParams();
+    const { state  } = useLocation();
+    console.log(state)
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${props.videoId}&key=${KEY}`, {
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${videoId}&key=${KEY}`, {
             headers: {
               Authorization: "Bearer " + token,
             },

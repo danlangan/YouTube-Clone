@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { KEY } from '../../localKey';
-import Comment from '../Comment/Comment';
-import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
+// import Comment from '../Comment/Comment';
+// import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
 import { useParams, useLocation } from 'react-router-dom'
 
 const ViewVideo = (props) => {
@@ -31,13 +31,13 @@ const ViewVideo = (props) => {
         <div className='view-video-component'>
             <div>
                 <h1>{video.title}</h1>
-            <iframe title={props.title} className="iframe" src={`https://www.youtube.com/embed/${props.videoId}`}
+            <iframe title={props.title} className="iframe" src={`https://www.youtube.com/embed/${videoId}`}
             ></iframe>
             <h3>{video.description}</h3>
-            <Comment/>
+            {/* <Comment/> */}
             </div>
             <br></br>
-            <div><ViewRelatedVideos/></div>
+            {/* <div><ViewRelatedVideos/></div> */}
         </div>
     );
 
