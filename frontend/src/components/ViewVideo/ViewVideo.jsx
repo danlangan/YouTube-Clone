@@ -30,7 +30,7 @@ const ViewVideo = (props) => {
     return (
         <div className='view-video-component'>
             <div>
-                <h1> {video.title}</h1>
+                <h1>{video.title}</h1>
             <iframe title={props.title} className="iframe" src={`https://www.youtube.com/embed/${props.videoId}`}
             ></iframe>
             <h3>{video.description}</h3>

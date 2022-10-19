@@ -63,10 +63,11 @@ const Comment = (props) => {
             <table>
                 <thead>Comments</thead>
                 <tbody>
-                    {comments && props.comments.map((comment) => {
+                    {comments.map((comment, index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td>{comment.text}</td>
+                                <br></br>
                                 <div className='like-dislike'>
                                     <td>{comment.likes}</td>
                                     <td>{comment.dislikes}</td>
@@ -79,7 +80,7 @@ const Comment = (props) => {
                     <h2>
                         Add a comment below, {user.username}!
                     </h2>
-                    <input type="text" spellcheck="true" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
+                    <input type="text" spellCheck="true" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
             </table>
