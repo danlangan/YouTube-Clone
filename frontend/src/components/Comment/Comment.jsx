@@ -18,7 +18,7 @@ const Comment = (props) => {
               Authorization: "Bearer " + token,
             },
           });
-        mapComments(response.data.results);
+        setComments(response.data.results);
         } catch (error) {
             console.log(error.message)
         }
@@ -27,26 +27,14 @@ const Comment = (props) => {
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            setComments();
+            fetchComments();
         }
-        return () => mounted = false;
+        // return () => mounted = false;
     },[token]);
-
-    function mapComments(){
-
-        return comments.map(comment => 
-        <comment
-        key={comment.video_id}
-        comment={comment.text}
-        likes={comment.likes}
-        dislikes={comment.dislikes}
-        />
-        )
-    };
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`https://www.googleapis.com/youtube/v3/${props.videoId}&key=${KEY}`, newComment, {
+            let response = await axios.post(`https://www.googleapis.com/youtube/v3/${props.videoId.comment}&key=${KEY}`, newComment, {
                 headers: {
                   Authorization: "Bearer " + token,
                 },
@@ -63,22 +51,18 @@ const Comment = (props) => {
 
     return (
         <div>
-            <table>
-                <thead>Comments</thead>
-                <tbody>
+                <h2>Comments</h2>
+                <ul>
                     {comments.map((comment, index) => {
                         return (
-                            <tr key={index}>
-                                <td>{comment.text}</td>
-                                <br></br>
-                                <div className='like-dislike'>
-                                    <td>{comment.likes}</td>
-                                    <td>{comment.dislikes}</td>
-                                </div>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+                                <li key={index}>{comment.text}</li>
+                                // <div className='like-dislike'>
+                                //     <li>{comment.likes}</li>
+                                //     <li>{comment.dislikes}</li>
+                                // </div>
+                        );
+                    })};
+                </ul>
                 <form>
                     <h2>
                         Add a comment below, {user.username}!
@@ -86,7 +70,6 @@ const Comment = (props) => {
                     <input type="text" spellCheck="true" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}/>
                     <button type='submit'>Submit Comment</button>
                 </form>
-            </table>
         </div>
     );
 };
