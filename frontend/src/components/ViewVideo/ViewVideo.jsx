@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { KEY } from '../../localKey';
-import Comment from '../Comment/Comment'
-// import Comment from '../Comment/Comment';
+import Comment from '../Comment/Comment';
 // import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom';
 
 const ViewVideo = (props) => {
     const { videoId } = useParams();
@@ -38,7 +37,7 @@ const ViewVideo = (props) => {
             <Comment/>
             </div>
             <br></br>
-            {/* <div><ViewRelatedVideos/></div> */}
+            {/* <ViewRelatedVideos/> */}
         </div>
     );
 
