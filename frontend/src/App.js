@@ -30,7 +30,7 @@ function App() {
           }
         />
         <Route 
-          path='/ViewVideo/:videoId' 
+          path='/viewvideo/:videoId' 
           element={<ViewVideo />}/>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />

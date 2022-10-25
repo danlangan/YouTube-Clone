@@ -8,11 +8,13 @@ const Comment = (props) => {
     const [comments, setComments] = useState([]);
     const { videoId } = useParams();
     const { state  } = useLocation();
+    const [newText, setNewText] = useState('')
+
     console.log(state)
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`http://127.0.0.1:8000/ViewVideo/comments${videoId}`, {
+        let response = await axios.get(`http://127.0.0.1:8000/viewvideo/comments/${videoId}`, {
             headers: {
               Authorization: "Bearer " + token,
             },
@@ -33,7 +35,7 @@ const Comment = (props) => {
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/ViewVideo/comments/${videoId}`, newComment, {
+            let response = await axios.post(`http://127.0.0.1:8000/viewvideo/comments/${videoId}`, newComment, {
                 headers: {
                   Authorization: "Bearer " + token,
                 },
@@ -46,6 +48,17 @@ const Comment = (props) => {
         } catch (error) {
             console.log(error.message);
         }
+    };
+
+
+    async function handleAddComment(event){
+        event.preventDefault();
+        let newComment = {
+            text : newText,
+            video_id : videoId,
+            Bearer : token
+        }
+        postComment(newComment);
     };
 
     return (
@@ -62,11 +75,11 @@ const Comment = (props) => {
                         );
                     })}
                 </ul>
-                <form>
+                <form onClick={(event) => handleAddComment(event)}>
                     <h2>
                         Add a comment below, {user.username}!
                     </h2>
-                    <input type="text" spellCheck="true" className="comment-box" placeholder="Add Comment Here" value={props} onChange={(event) => postComment(event.target.value)}></input>
+                    <input type="text" spellCheck="true" className="comment-box" placeholder="Add Comment Here" value={newText} onChange={(event) => setNewText(event.target.value)}></input>
                     <button type='submit'>Submit Comment</button>
                 </form>
         </div>
