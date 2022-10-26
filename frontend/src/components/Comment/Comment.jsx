@@ -14,12 +14,13 @@ const Comment = (props) => {
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`http://127.0.0.1:8000/viewvideo/comments/${videoId}`, {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
+        let response = await axios.get(`http://127.0.0.1:8000/api/viewvideo/${videoId}`, {
+            // headers: {
+            //   Authorization: "Bearer " + token,
+            // },
           });
-        setComments(response.data.results);
+        setComments(response.data.results); // maybe remove .results
+        console.log(response.data.results)
         } catch (error) {
             console.log(error.message)
         }
@@ -35,7 +36,7 @@ const Comment = (props) => {
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/viewvideo/${videoId}`, newComment, {
+            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/`, newComment, {
                 headers: {
                   Authorization: "Bearer " + token,
                 },
@@ -59,21 +60,22 @@ const Comment = (props) => {
             Bearer : token
         }
         postComment(newComment);
+        setNewText('');
     };
 
     return (
         <div>
                 <h2>Comments</h2>
                 <ul>
-                    {comments.map((comment, index) => {
-                        return (
+                    {/* {comments.map((comment, index) => {
+                        return (                                                 
                                 <li key={index}>{comment.text}</li>
                                 // <div className='like-dislike'>
                                 //     <li>{comment.likes}</li>
                                 //     <li>{comment.dislikes}</li>
                                 // </div>
                         );
-                    })}
+                    })} */}
                 </ul>
                 <form onClick={(event) => handleAddComment(event)}>
                     <h2>

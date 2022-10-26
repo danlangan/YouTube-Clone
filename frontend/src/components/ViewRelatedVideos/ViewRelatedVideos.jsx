@@ -1,26 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
-import { useParams, useLocation } from "react-router-dom";
-
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import useAuth from '../../hooks/useAuth';
 
 const ViewRelatedVideos = (props) => {
+    const [user, token] = useAuth();
+    const navigate = useNavigate();
     const { videoId } = useParams();
     const { state } = useLocation();
     console.log(state)
-    const [relatedVideos, setRelatedVideos] = useState(`${props.videoId}`);
+    const [relatedVideos, setRelatedVideos] = useState({});
     
 
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchRelatedVideos();
+            fetchRelatedVideos(videoId);
         };
-    })
+    }, [token])
   
     async function fetchRelatedVideos(){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${props.videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
             console.log(response.data);
             if (response.status === 201){
             setRelatedVideos(response.data);
@@ -30,9 +32,18 @@ const ViewRelatedVideos = (props) => {
         }; 
      };
 
+     const handleClick = (relatedVideo) => {
+        navigate(`viewvideo/${relatedVideo.videoId}`, {
+            state: {
+                title: relatedVideo.title,
+                description: relatedVideo.description
+            }
+        })
+     };
+
     return (
         <div className='related-videos'>
-            <h2>Related Videos</h2>
+            <h2>Related Videos for {user.username}</h2>
             <ul>
                 {relatedVideos.map((relatedVideo, index) => {
                 return (
@@ -41,7 +52,9 @@ const ViewRelatedVideos = (props) => {
                     {relatedVideo.snippet.title}
                     </div>
                     <div className="related-thumbnail">
+                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}>
                     <img src={relatedVideo.thumbnail.default.url} alt='related video thumbnail'/>
+                    </Link>
                     </div>
                 </li>
                 )})};
