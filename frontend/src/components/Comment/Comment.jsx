@@ -35,7 +35,7 @@ const Comment = (props) => {
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/viewvideo/comments/${videoId}`, newComment, {
+            let response = await axios.post(`http://127.0.0.1:8000/viewvideo/${videoId}`, newComment, {
                 headers: {
                   Authorization: "Bearer " + token,
                 },
