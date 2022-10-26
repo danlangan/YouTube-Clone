@@ -9,6 +9,5 @@ class Comment(models.Model):
     text = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
-    video_id = models.CharField(max_length=255, default='default_value', null=True)
-    user = models.CharField(max_length=255, default='default_value', null=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default='default_value', null=True)
+    video_id = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
