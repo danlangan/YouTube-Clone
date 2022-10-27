@@ -23,7 +23,7 @@ const HomePage = () => {
       }
     }, [token]);
 
-    async function fetchSearchResults(query="leonel messi highlights") {
+    async function fetchSearchResults(query="axios post to local server with id") {
       try {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${query}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data.items);
@@ -65,7 +65,7 @@ const HomePage = () => {
             </div><div className="video-description"> 
             {video.snippet.discripion} 
             </div>
-            <Link to={`/ViewVideo/${video.id.videoId}`}>
+            <Link to={`/viewvideo/${video.id.videoId}`}>
             <img src={video.snippet.thumbnails.medium.url} alt='thumbnail tag for the video'/>
             </Link>
             </li>

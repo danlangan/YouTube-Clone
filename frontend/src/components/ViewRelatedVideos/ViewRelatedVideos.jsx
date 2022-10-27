@@ -9,14 +9,14 @@ const ViewRelatedVideos = (props) => {
     const navigate = useNavigate();
     const { videoId } = useParams();
     const { state } = useLocation();
-    console.log(state)
     const [relatedVideos, setRelatedVideos] = useState({});
+    console.log(state)
     
 
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchRelatedVideos(videoId);
+            fetchRelatedVideos(videoId); // this might be doing too much by passing in the videoId state variable.
         };
     }, [token])
   
@@ -33,7 +33,7 @@ const ViewRelatedVideos = (props) => {
      };
 
      const handleClick = (relatedVideo) => {
-        navigate(`viewvideo/${relatedVideo.videoId}`, {
+        navigate(`ViewVideo/${relatedVideo.videoId}`, {
             state: {
                 title: relatedVideo.title,
                 description: relatedVideo.description
@@ -51,9 +51,9 @@ const ViewRelatedVideos = (props) => {
                     <div className="related-title">
                     {relatedVideo.snippet.title}
                     </div>
-                    <div className="related-thumbnail">
-                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}>
-                    <img src={relatedVideo.thumbnail.default.url} alt='related video thumbnail'/>
+                    <div className="related-thumbnail"> 
+                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}> check this syntax inside of postman to make sure we are pathing to the data in the correct way.
+                    <img src={relatedVideo.snippet.thumbnails.default.url} alt='related video thumbnail'/>
                     </Link>
                     </div>
                 </li>
@@ -62,4 +62,5 @@ const ViewRelatedVideos = (props) => {
         </div>
     )
 };
+
 export default ViewRelatedVideos;

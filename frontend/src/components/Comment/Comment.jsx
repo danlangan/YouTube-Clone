@@ -14,13 +14,13 @@ const Comment = (props) => {
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`http://127.0.0.1:8000/api/viewvideo/${videoId}`, {
-            // headers: {
-            //   Authorization: "Bearer " + token,
-            // },
+        let response = await axios.get(`http://127.0.0.1:8000/api/viewvideo/${props.videoId}/`, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
           });
-        setComments(response.data.results); // maybe remove .results
-        console.log(response.data.results)
+        setComments(response.data);
+        console.log(response.data);
         } catch (error) {
             console.log(error.message)
         }
@@ -29,14 +29,14 @@ const Comment = (props) => {
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchComments();
+            fetchComments(); 
         }
         return () => mounted = false;
     },[token]);
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/`, newComment, {
+            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/${videoId}`, newComment, { // might wnant to take away the props.videoId here... just added it in to see if it would return an array of data inside of the console.log()
                 headers: {
                   Authorization: "Bearer " + token,
                 },
@@ -59,6 +59,7 @@ const Comment = (props) => {
             video_id : videoId,
             Bearer : token
         }
+        console.log(newComment);
         postComment(newComment);
         setNewText('');
     };
@@ -67,7 +68,7 @@ const Comment = (props) => {
         <div>
                 <h2>Comments</h2>
                 <ul>
-                    {/* {comments.map((comment, index) => {
+                    {comments.map((comment, index) => {
                         return (                                                 
                                 <li key={index}>{comment.text}</li>
                                 // <div className='like-dislike'>
@@ -75,7 +76,7 @@ const Comment = (props) => {
                                 //     <li>{comment.dislikes}</li>
                                 // </div>
                         );
-                    })} */}
+                    })}
                 </ul>
                 <form onClick={(event) => handleAddComment(event)}>
                     <h2>

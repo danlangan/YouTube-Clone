@@ -1,5 +1,3 @@
-from cgi import print_exception
-from unicodedata import decimal
 from django.db import models
 from authentication.models import User
 
