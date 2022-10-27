@@ -34,7 +34,7 @@ const HomePage = () => {
     };
 
       const handleClick = (video) => {
-        navigate(`ViewVideo/${video.videoId}`, {
+        navigate(`viewvideo/${video.videoId}`, {
           state: {
             title: video.title,
             description: video.description

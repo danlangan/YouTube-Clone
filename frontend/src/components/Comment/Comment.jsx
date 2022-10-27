@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Comment = (props) => {
     const [user, token] = useAuth();
     const [comments, setComments] = useState([]);
     const { videoId } = useParams();
-    const { state  } = useLocation();
+
     const [newText, setNewText] = useState('')
 
-    console.log(state)
 
     async function fetchComments(){
         try {
@@ -34,9 +33,21 @@ const Comment = (props) => {
         return () => mounted = false;
     },[token]);
 
+    async function handleAddComment(event){
+        event.preventDefault();
+        let newComment = {
+            text : newText,
+            video_id : videoId,
+            Bearer : token
+        }
+        postComment(newComment);
+        console.log(newComment);
+        setNewText('');
+    };
+
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/${videoId}`, newComment, { // might wnant to take away the props.videoId here... just added it in to see if it would return an array of data inside of the console.log()
+            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/`, newComment, { // might wnant to take away the props.videoId here... just added it in to see if it would return an array of data inside of the console.log()
                 headers: {
                   Authorization: "Bearer " + token,
                 },
@@ -51,23 +62,10 @@ const Comment = (props) => {
         }
     };
 
-
-    async function handleAddComment(event){
-        event.preventDefault();
-        let newComment = {
-            text : newText,
-            video_id : videoId,
-            Bearer : token
-        }
-        console.log(newComment);
-        postComment(newComment);
-        setNewText('');
-    };
-
     return (
         <div>
                 <h2>Comments</h2>
-                <ul>
+                <ul className="map-comments">
                     {comments.map((comment, index) => {
                         return (                                                 
                                 <li key={index}>{comment.text}</li>
