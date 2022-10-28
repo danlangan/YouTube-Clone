@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { KEY } from '../../localKey';
 import Comment from '../Comment/Comment';
-// import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
+import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
 import { useParams, useLocation } from 'react-router-dom';
 
 const ViewVideo = (props) => {
@@ -37,7 +37,7 @@ const ViewVideo = (props) => {
             <Comment/>
             </div>
             <br></br>
-            {/* <ViewRelatedVideos/> */}
+            <ViewRelatedVideos/>
         </div>
     );
 

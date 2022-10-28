@@ -13,7 +13,7 @@ const Comment = (props) => {
 
     async function fetchComments(){
         try {
-        let response = await axios.get(`http://127.0.0.1:8000/api/viewvideo/${props.videoId}/`, {
+        let response = await axios.get(`http://127.0.0.1:8000/api/viewvideo/${videoId}`, {
             headers: {
               Authorization: "Bearer " + token,
             },
@@ -31,7 +31,7 @@ const Comment = (props) => {
             fetchComments(); 
         }
         return () => mounted = false;
-    },[token]);
+    },[]);
 
     async function handleAddComment(event){
         event.preventDefault();

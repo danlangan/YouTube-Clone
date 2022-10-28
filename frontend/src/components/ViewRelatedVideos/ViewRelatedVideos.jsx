@@ -2,27 +2,26 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
-import useAuth from '../../hooks/useAuth';
 
 const ViewRelatedVideos = (props) => {
-    const [user, token] = useAuth();
     const navigate = useNavigate();
     const { videoId } = useParams();
     const { state } = useLocation();
-    const [relatedVideos, setRelatedVideos] = useState({});
+    const [relatedVideos, setRelatedVideos] = useState([]);
     console.log(state)
     
 
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchRelatedVideos(videoId); // this might be doing too much by passing in the videoId state variable.
+            fetchRelatedVideos(); // this might be doing too much by passing in the videoId state variable.
         };
-    }, [token])
+        return () => mounted = false;
+    }, [])
   
     async function fetchRelatedVideos(){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${props.videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
             console.log(response.data);
             if (response.status === 201){
             setRelatedVideos(response.data);
@@ -43,7 +42,7 @@ const ViewRelatedVideos = (props) => {
 
     return (
         <div className='related-videos'>
-            <h2>Related Videos for {user.username}</h2>
+            <h2>Related Videos</h2>
             <ul>
                 {relatedVideos.map((relatedVideo, index) => {
                 return (
@@ -52,12 +51,12 @@ const ViewRelatedVideos = (props) => {
                     {relatedVideo.snippet.title}
                     </div>
                     <div className="related-thumbnail"> 
-                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}> check this syntax inside of postman to make sure we are pathing to the data in the correct way.
+                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}>
                     <img src={relatedVideo.snippet.thumbnails.default.url} alt='related video thumbnail'/>
                     </Link>
                     </div>
                 </li>
-                )})};
+                )})}
             </ul>
         </div>
     )
