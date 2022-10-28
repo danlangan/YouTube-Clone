@@ -53,7 +53,7 @@ const ViewRelatedVideos = () => {
                     </Link>
                     </div>
                 </li>
-                )})):(fetchRelatedVideos(videoId))}
+                )})):(<div>No Related Videos</div>)}
             </ul>
         </div>
     )
