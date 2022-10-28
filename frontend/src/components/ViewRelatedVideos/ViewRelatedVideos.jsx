@@ -48,8 +48,8 @@ const ViewRelatedVideos = () => {
                 return (
                 <li key={index}>
                     <div className="related-title">
-                    {relatedVideo.items.snippet.title}
-                    {relatedVideo.items.snippet.thumbnails.default}
+                    {relatedVideo.snippet.title}
+                    {relatedVideo.snippet.thumbnails.default}
                     </div>
                     <div className="related-thumbnail"> 
                     <Link onClick={(event) => handleClick(event)} to={`/viewvideo/${relatedVideo.id.videoId}`}>
