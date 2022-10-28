@@ -11,9 +11,9 @@ const ViewVideo = (props) => {
     const [video, setVideo] = useState({});
     console.log(state);
 
-    async function fetchVideo(video){
+    async function fetchVideo(){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos/${props.videoId}&key=${KEY}&type=video&maxResults=5&part=snippet`, video);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/videos/${videoId}&key=${KEY}&type=video&maxResults=5&part=snippet`);
             setVideo(response.data);
         } catch (error) {
             console.log(error.message);
@@ -31,7 +31,7 @@ const ViewVideo = (props) => {
         <div className='view-video-component'>
             <div>
                 <h1>{video.title}</h1>
-            <iframe title={props.title} className="iframe" src={`https://www.youtube.com/embed/${videoId}`}
+            <iframe title={video.title} className="iframe" src={`https://www.youtube.com/embed/${videoId}`}
             ></iframe>
             <h3>{video.description}</h3>
             <Comment/>

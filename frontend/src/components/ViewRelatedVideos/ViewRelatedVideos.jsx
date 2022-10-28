@@ -1,41 +1,37 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
-import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 const ViewRelatedVideos = () => {
     const navigate = useNavigate();
     const { videoId } = useParams();
-    const { state } = useLocation();
     const [relatedVideos, setRelatedVideos] = useState([]);
-    console.log(state)
     
 
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchRelatedVideos();
+            fetchRelatedVideos(videoId);
         };
         return () => mounted = false;
-    }, [])
+    }, [videoId])
   
-    async function fetchRelatedVideos(){
+    async function fetchRelatedVideos(videoId=videoId){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
-            console.log(response.data);
-            if (response.status === 201){
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet/`);
             setRelatedVideos(response.data);
-        }
+            console.log(response.data);
         } catch (error) {
             console.log(error.message);
         };
      };
 
      const handleClick = (relatedVideo) => {
-        navigate(`viewvideo/${relatedVideo.videoId}`, {
+        navigate(`viewvideo/${relatedVideo.videoId}`,{
             state: {
-                title: relatedVideo.title,
-                description: relatedVideo.description
+                title: relatedVideo.snippet.title,
+                description: relatedVideo.snippet.description
             }
         })
      };
@@ -44,7 +40,7 @@ const ViewRelatedVideos = () => {
         <div className='related-videos'>
             <h2>Related Videos</h2>
             <ul>
-                {relatedVideos.map((relatedVideo, index) => {
+                {relatedVideos ? (relatedVideos.map((relatedVideo, index) => {
                 return (
                 <li key={index}>
                     <div className="related-title">
@@ -52,12 +48,12 @@ const ViewRelatedVideos = () => {
                     {relatedVideo.snippet.thumbnails.default}
                     </div>
                     <div className="related-thumbnail"> 
-                    <Link onClick={(event) => handleClick(event)} to={`/viewvideo/${relatedVideo.id.videoId}`}>
+                    <Link onClick={(event) => handleClick(event)} to={`/viewvideo/${relatedVideo.videoId}`}>
                     <img src={relatedVideo.items.snippet.thumbnails.default.url} alt='related video thumbnail'/>
                     </Link>
                     </div>
                 </li>
-                )})}
+                )})):(fetchRelatedVideos(videoId))}
             </ul>
         </div>
     )

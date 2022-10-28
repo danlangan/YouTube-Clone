@@ -3,11 +3,10 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { useParams } from "react-router-dom";
 
-const Comment = (props) => {
+const Comment = () => {
     const [user, token] = useAuth();
     const [comments, setComments] = useState([]);
     const { videoId } = useParams();
-
     const [newText, setNewText] = useState('')
 
 
@@ -53,9 +52,7 @@ const Comment = (props) => {
                 },
               });
             console.log(response.data);
-            if (response.status === 201){
-                setComments(response.data);
-            }
+            setComments(response.data);
             fetchComments(response.data);
         } catch (error) {
             console.log(error.message);
