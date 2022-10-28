@@ -47,7 +47,7 @@ const Comment = (props) => {
 
     async function postComment(newComment){
         try {
-            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/`, newComment, { // might wnant to take away the props.videoId here... just added it in to see if it would return an array of data inside of the console.log()
+            let response = await axios.post(`http://127.0.0.1:8000/api/viewvideo/`, newComment, {
                 headers: {
                   Authorization: "Bearer " + token,
                 },

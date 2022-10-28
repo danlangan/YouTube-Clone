@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 
-const ViewRelatedVideos = (props) => {
+const ViewRelatedVideos = () => {
     const navigate = useNavigate();
     const { videoId } = useParams();
     const { state } = useLocation();
@@ -14,7 +14,7 @@ const ViewRelatedVideos = (props) => {
     useEffect(() => {
         let mounted = true;
         if(mounted){
-            fetchRelatedVideos(); // this might be doing too much by passing in the videoId state variable.
+            fetchRelatedVideos();
         };
         return () => mounted = false;
     }, [])
@@ -28,11 +28,11 @@ const ViewRelatedVideos = (props) => {
         }
         } catch (error) {
             console.log(error.message);
-        }; 
+        };
      };
 
      const handleClick = (relatedVideo) => {
-        navigate(`ViewVideo/${relatedVideo.videoId}`, {
+        navigate(`viewvideo/${relatedVideo.videoId}`, {
             state: {
                 title: relatedVideo.title,
                 description: relatedVideo.description
@@ -48,11 +48,12 @@ const ViewRelatedVideos = (props) => {
                 return (
                 <li key={index}>
                     <div className="related-title">
-                    {relatedVideo.snippet.title}
+                    {relatedVideo.items.snippet.title}
+                    {relatedVideo.items.snippet.thumbnails.default}
                     </div>
                     <div className="related-thumbnail"> 
-                    <Link to={`/ViewVideo/${relatedVideo.id.videoId}`}>
-                    <img src={relatedVideo.snippet.thumbnails.default.url} alt='related video thumbnail'/>
+                    <Link onClick={(event) => handleClick(event)} to={`/viewvideo/${relatedVideo.id.videoId}`}>
+                    <img src={relatedVideo.items.snippet.thumbnails.default.url} alt='related video thumbnail'/>
                     </Link>
                     </div>
                 </li>
