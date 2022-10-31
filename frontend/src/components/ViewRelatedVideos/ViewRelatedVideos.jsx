@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { KEY } from '../../localKey'
 import { useParams, useNavigate, Link } from "react-router-dom";
+import './ViewRelatedVideos.css'
 
 const ViewRelatedVideos = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ViewRelatedVideos = () => {
   
     async function fetchRelatedVideos(videoId=videoId){
         try {
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet/`);
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${videoId}&type=video&key=${KEY}&type=video&maxResults=5&part=snippet`);
             setRelatedVideos(response.data);
             console.log(response.data);
         } catch (error) {
@@ -40,7 +41,7 @@ const ViewRelatedVideos = () => {
         <div className='related-videos'>
             <h2>Related Videos</h2>
             <ul>
-                {relatedVideos ? (relatedVideos.map((relatedVideo, index) => {
+                {relatedVideos[0] ? (relatedVideos.map((relatedVideo, index) => {
                 return (
                 <li key={index}>
                     <div className="related-title">

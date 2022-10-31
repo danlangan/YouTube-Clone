@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { useParams } from "react-router-dom";
+// import './Comment.css'
 
 const Comment = () => {
     const [user, token] = useAuth();
