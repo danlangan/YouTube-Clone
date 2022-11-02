@@ -1,0 +1,21 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* body {
+    margin: 0;
+} */
+
+.view-video-component {
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+    height: 25%;
+    max-height: 750px;
+}
+
+video {
+    width: 100%;
+}

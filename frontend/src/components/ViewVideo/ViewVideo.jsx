@@ -4,6 +4,7 @@ import { KEY } from '../../localKey';
 import Comment from '../Comment/Comment';
 import ViewRelatedVideos from '../ViewRelatedVideos/ViewRelatedVideos';
 import { useParams, useLocation } from 'react-router-dom';
+import './ViewVideo.css'
 
 const ViewVideo = (props) => {
     const { videoId } = useParams();
@@ -28,14 +29,14 @@ const ViewVideo = (props) => {
     });
 
     return (
-        <div className='view-video-component'>
-            <div>
+        <div>
+            <div className='view-video-component'>
                 <h1>{video.title}</h1>
             <iframe title={video.title} className="iframe" src={`https://www.youtube.com/embed/${videoId}`}
             ></iframe>
+            </div>
             <h3>{video.description}</h3>
             <Comment/>
-            </div>
             <br></br>
             <ViewRelatedVideos/>
         </div>
